@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Pasar de reloj analógico a digital</title>
+<title>Cómo se lee el reloj analógico</title>
 <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/icono.ico">
 <style>
 /* ====== Reset & base ====== */
@@ -98,16 +98,13 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
 .clock-svg{filter:drop-shadow(0 6px 18px rgba(80,40,0,.18))}
 
 /* INPUTS */
-.digit-group{display:flex;align-items:center;gap:6px;background:#141430;
-  padding:11px 20px;border-radius:15px;box-shadow:0 4px 20px rgba(0,0,0,.25);
-  font-family:'Courier New',monospace;font-size:2.2rem; margin: 10px auto;}
-.digit-input{width:52px;font-family:'Courier New',monospace;font-size:2rem;
-  text-align:center;background:transparent;color:#00ff99;border:none;
-  border-bottom:3px solid rgba(0,255,153,.3);outline:none;
-  caret-color:#00ff99;text-shadow:0 0 8px rgba(0,255,153,.6)}
-.digit-input::placeholder{color:rgba(0,255,153,.2)}
-.digit-input:disabled{ opacity: 0.7; cursor: not-allowed; }
-.digit-sep{color:#00ff99;text-shadow:0 0 8px rgba(0,255,153,.6)}
+.text-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;margin:8px 0}
+.text-input{width:100%;font-family:'Segoe UI',sans-serif;font-size:1.1rem;font-weight:700;
+  padding:12px 16px;border:3px solid #e8ddd4;border-radius:13px;outline:none;
+  color:var(--text);transition:border-color .18s,box-shadow .18s;
+  text-align:center;background:#fffaf7; max-width: 400px;}
+.text-input:focus{border-color:var(--blue-600);box-shadow:0 0 0 3px rgba(37,79,186,.18)}
+.input-hint{font-size:.76rem;color:var(--blue-700);text-align:center;font-style:italic;}
 
 /* FEEDBACK */
 .feedback-box{width:100%;padding:11px 16px;border-radius:13px;text-align:center;
@@ -183,8 +180,6 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
   body{padding:10px 6px}
   .game-container{padding:16px 12px}
   h1{font-size:1.8rem}
-  .digit-group{font-size:1.9rem;padding:9px 12px}
-  .digit-input{width:44px;font-size:1.8rem}
   .btn{font-size:.97rem;padding:10px 24px}
 }
 </style>
@@ -213,15 +208,15 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
     <button class="mute-btn" id="muteBtn" onclick="toggleSound()" title="Activar/desactivar sonido">🔊</button>
     
     <header>
-        <h1>Pasar de reloj analógico a digital</h1>
-        <div class="subtitle">Aprende a leer la hora en distintos tipos de relojes</div>
+        <h1>Cómo se lee el reloj analógico</h1>
+        <div class="subtitle">Aprende a leer la hora en relojes de manecillas</div>
     </header>
 
     <div class="start-content">
         <div class="advice-box">
-            Con este juego aprenderás a leer e interpretar la hora en relojes 
-            <span class="highlight-keyword">analógicos</span> (manecillas) y 
-            <span class="highlight-keyword">digitales</span> (números).
+            En este juego aprenderás a leer la hora en relojes 
+            <span class="highlight-keyword">analógicos</span> y a escribirla 
+            correctamente con palabras.
             <strong style="display:block; margin-top:0.5rem; text-align:center;">¡Ánimo!</strong>
         </div>
         
@@ -252,26 +247,25 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
   <!-- ══════════ GAME SCREEN ══════════ -->
   <section class="screen" id="screen-game">
     <header>
-        <h1 class="level-badge" style="background:var(--blue-dark); display:inline-block">⏰ Pasa de hora analógica a digital</h1>
+        <h1 class="level-badge" style="background:var(--blue-dark); display:inline-block">✍️ Escribe la hora con palabras</h1>
     </header>
     <div class="game-info">
         <div class="timer" id="timer-display">00:00</div>
         <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-        <div class="step-counter" id="step-counter">0/10</div>
+        <div class="step-counter" id="step-counter">0/8</div>
     </div>
 
     <div style="text-align:center; font-weight:700; color:var(--blue-700); margin-bottom:10px;">
-        ¿Qué hora marca el reloj? Escribe los dígitos
+        ¿Qué hora marca el reloj?
     </div>
 
     <div class="clock-wrap" id="clock-wrap">
       <svg id="clock-svg" class="clock-svg" width="210" height="210" viewBox="0 0 220 220"></svg>
     </div>
     
-    <div class="digit-group">
-      <input class="digit-input" id="input-h" type="text" maxlength="2" placeholder="HH" inputmode="numeric" autocomplete="off">
-      <span class="digit-sep">:</span>
-      <input class="digit-input" id="input-m" type="text" maxlength="2" placeholder="MM" inputmode="numeric" autocomplete="off">
+    <div class="text-wrap">
+      <input class="text-input" id="input-text" type="text" placeholder="Escribe la hora con palabras..." autocomplete="off">
+      <div class="input-hint">Ej: "las tres y cuarto", "las doce menos veinte"</div>
     </div>
     
     <div class="feedback-box" id="feedback-box"></div>
@@ -284,7 +278,7 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
   <!-- ══════════ FINAL ══════════ -->
   <section class="screen" id="screen-final">
     <header>
-        <h1 class="final-title">Pasar de reloj analógico a digital</h1>
+        <h1 class="final-title">El reloj analógico</h1>
     </header>
     <div class="results">
         <div id="trophyBox">🏆</div>
@@ -316,17 +310,16 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
     </div>
 
     <div style="text-align:center; font-weight:700; color:var(--blue-700); margin-bottom:10px;">
-        Practica escribir la hora en dígitos
+        Practica escribir la hora con palabras
     </div>
 
     <div class="clock-wrap" id="train-clock-wrap">
       <svg id="train-clock-svg" class="clock-svg" width="210" height="210" viewBox="0 0 220 220"></svg>
     </div>
     
-    <div class="digit-group">
-      <input class="digit-input" id="train-input-h" type="text" maxlength="2" placeholder="HH" inputmode="numeric" autocomplete="off">
-      <span class="digit-sep">:</span>
-      <input class="digit-input" id="train-input-m" type="text" maxlength="2" placeholder="MM" inputmode="numeric" autocomplete="off">
+    <div class="text-wrap">
+      <input class="text-input" id="train-input-text" type="text" placeholder="Escribe la hora con palabras..." autocomplete="off">
+      <div class="input-hint">Ej: "las seis y media", "las dos menos cuarto"</div>
     </div>
 
     <div class="feedback-box" id="train-feedback-box"></div>
@@ -342,7 +335,7 @@ h1{ color:var(--blue-dark); font-size:clamp(2rem,5.2vw,3.1rem); font-weight:900;
 
 <script>
 // ═══ CONFIGURACIÓN CRÍTICA ═══
-const SHEET_NAME = "Reloj1";
+const SHEET_NAME = "Leer_analogico";
 const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6wb6YF8hnqdQEOEjI9nM223_pTLijO1pqcGwoLGvFROIWnag93FliG3VVo8zvj8dU/exec";
 
 // ═══ AUDIO ═══
@@ -395,9 +388,39 @@ function formatTimeDetailed(sec) {
 
 // ═══ STATE ═══
 const MINS=[0,5,10,15,20,25,30,35,40,45,50,55];
-let G={question:0, score:0, answered:false, streak:0, curH:0, curM:0}; // question: 0 to 9
+const TOTAL_QUESTIONS = 8;
+const POINTS_PER_QUESTION = 100 / TOTAL_QUESTIONS; // 12.5
+
+let G={question:0, score:0, answered:false, streak:0, curH:0, curM:0};
 
 function rndTime(){return{h:Math.ceil(Math.random()*12),m:MINS[Math.floor(Math.random()*12)]};}
+
+// ═══ SPANISH TEXT LOGIC ═══
+const HR=['','una','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce'];
+const MT={0:'en punto',5:'y cinco',10:'y diez',15:'y cuarto',20:'y veinte',25:'y veinticinco',
+  30:'y media',35:'menos veinticinco',40:'menos veinte',45:'menos cuarto',50:'menos diez',55:'menos cinco'};
+  
+function timeToText(h,m){
+  let dH=h;if(m>30){dH=(h%12)+1;if(dH>12)dH=1;}
+  const hN=HR[dH],mT=MT[m];
+  if(dH===1)return m===0?`la una en punto`:`la una ${mT}`;
+  return m===0?`las ${hN} en punto`:`las ${hN} ${mT}`;
+}
+
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();}
+  
+function getAllAccepted(h,m){
+  const main=timeToText(h,m);const set=new Set([norm(main)]);
+  if(m===0)set.add(norm(main.replace(' en punto','')));
+  if(main.startsWith('la una')){set.add(norm(main.replace('la una','las una')));
+    if(m===0)set.add(norm(main.replace(' en punto','').replace('la una','las una')));}
+  if(m===15)set.add(norm(main.replace('y cuarto','y un cuarto')));
+  if(m===45)set.add(norm(main.replace('menos cuarto','menos un cuarto')));
+  if(m===30)set.add(norm(main.replace('y media','y treinta')));
+  return[...set];
+}
+function isCorrect(input,h,m){return getAllAccepted(h,m).includes(norm(input));}
 
 // ═══ CLOCK DRAWING ═══
 function drawClock(svgId, hour, minute){
@@ -444,12 +467,11 @@ function animClock(wrapId){
 
 // ═══ PROGRESS UI ═══
 function updateProgress(step){
-    const total = 10;
-    const progress = (step / total) * 100;
+    const progress = (step / TOTAL_QUESTIONS) * 100;
     const fill = document.getElementById('progress-fill');
     const counter = document.getElementById('step-counter');
     if(fill) fill.style.width = progress + '%';
-    if(counter) counter.textContent = `${step}/${total}`;
+    if(counter) counter.textContent = `${step}/${TOTAL_QUESTIONS}`;
 }
 
 // ═══ SCREEN ═══
@@ -479,13 +501,9 @@ function loadQuestion(){
 
   updateProgress(G.question);
   
-  const inpH = document.getElementById('input-h');
-  const inpM = document.getElementById('input-m');
-  
-  inpH.value = '';
-  inpM.value = '';
-  inpH.disabled = false;
-  inpM.disabled = false;
+  const inp = document.getElementById('input-text');
+  inp.value = '';
+  inp.disabled = false;
   
   document.getElementById('feedback-box').className = 'feedback-box';
   document.getElementById('btn-check').style.display = '';
@@ -493,38 +511,30 @@ function loadQuestion(){
   drawClock('clock-svg', t.h, t.m);
   animClock('clock-wrap');
   
-  inpH.focus();
+  inp.focus();
 }
 
 function checkAnswer(){
   if(G.answered) return;
 
-  const hv = parseInt(document.getElementById('input-h').value);
-  const mv = parseInt(document.getElementById('input-m').value);
-  
-  const okH = hv===G.curH||(G.curH<12&&hv===G.curH+12)||(G.curH===12&&hv===0);
-  const ok = okH && mv === G.curM;
+  const inputVal = document.getElementById('input-text').value;
+  const ok = isCorrect(inputVal, G.curH, G.curM);
   
   G.answered = true;
   
   const fb = document.getElementById('feedback-box');
-  const hS = String(G.curH).padStart(2,'0');
-  const mS = String(G.curM).padStart(2,'0');
-  const alt = (G.curH+12<=23)?' o <strong>'+String(G.curH+12).padStart(2,'0')+':'+mS+'</strong>':'';
+  const correctText = timeToText(G.curH, G.curM);
 
-  // Disable inputs immediately after checking
-  document.getElementById('input-h').disabled = true;
-  document.getElementById('input-m').disabled = true;
+  document.getElementById('input-text').disabled = true;
   document.getElementById('btn-check').style.display = 'none';
 
   if(ok){
-    G.score += 10;
+    G.score += POINTS_PER_QUESTION;
     fb.className = 'feedback-box correct';
-    fb.innerHTML = `✅ ¡Correcto! La hora es <strong>${hS}:${mS}</strong>${alt}`;
+    fb.innerHTML = `✅ ¡Correcto! Se dice: <strong>"${correctText}"</strong>`;
     playSound('correcto');
     
-    // Auto advance
-    if(G.question < 9){
+    if(G.question < TOTAL_QUESTIONS - 1){
         setTimeout(()=>{
             playSound('tap');
             G.question++;
@@ -535,12 +545,11 @@ function checkAnswer(){
     }
   } else {
     fb.className = 'feedback-box wrong';
-    fb.innerHTML = `❌ Incorrecto. La hora correcta era <strong>${hS}:${mS}</strong>${alt}`;
+    fb.innerHTML = `❌ Incorrecto. La respuesta correcta era: <strong>"${correctText}"</strong>`;
     playSound('error');
     shake(document.querySelector('#screen-game'));
     
-    // Auto advance even if wrong
-    if(G.question < 9){
+    if(G.question < TOTAL_QUESTIONS - 1){
         setTimeout(()=>{
             playSound('tap');
             G.question++;
@@ -558,14 +567,15 @@ function finishGame() {
     
     const totalTime = (Date.now() - timerStart) / 1000;
     const timeStr = fmtTime(timerSecs);
+    const finalScore = Math.round(G.score);
     
-    document.getElementById('final-score').textContent = G.score;
+    document.getElementById('final-score').textContent = finalScore;
     document.getElementById('final-time').textContent = timeStr;
     
     const trophy = document.getElementById('trophyBox');
     const msg = document.getElementById('finalMsg');
     
-    if(G.score === 100){
+    if(finalScore === 100){
         trophy.style.display = 'block';
         msg.textContent = '¡Enhorabuena, puntuación máxima!';
         playSound('victoria');
@@ -576,7 +586,7 @@ function finishGame() {
         playSound('completado');
     }
     
-    showSubmitModal(timeStr, G.score);
+    showSubmitModal(timeStr, finalScore);
 }
 
 function goHome(){
@@ -602,13 +612,9 @@ function loadTrainingQuestion(){
 
   document.getElementById('streak-val').textContent = G.streak;
   
-  const inpH = document.getElementById('train-input-h');
-  const inpM = document.getElementById('train-input-m');
-  
-  inpH.value = '';
-  inpM.value = '';
-  inpH.disabled = false;
-  inpM.disabled = false;
+  const inp = document.getElementById('train-input-text');
+  inp.value = '';
+  inp.disabled = false;
   
   document.getElementById('train-feedback-box').className = 'feedback-box';
   document.getElementById('train-btn-check').style.display = '';
@@ -616,38 +622,32 @@ function loadTrainingQuestion(){
   drawClock('train-clock-svg', t.h, t.m);
   animClock('train-clock-wrap');
   
-  inpH.focus();
+  inp.focus();
 }
 
 function checkTraining(){
   if(G.answered) return;
   
-  const hv = parseInt(document.getElementById('train-input-h').value);
-  const mv = parseInt(document.getElementById('train-input-m').value);
-  
-  const okH = hv===G.curH||(G.curH<12&&hv===G.curH+12)||(G.curH===12&&hv===0);
-  const ok = okH && mv === G.curM;
+  const inputVal = document.getElementById('train-input-text').value;
+  const ok = isCorrect(inputVal, G.curH, G.curM);
   
   G.answered = true;
   
   const fb = document.getElementById('train-feedback-box');
-  const hS = String(G.curH).padStart(2,'0');
-  const mS = String(G.curM).padStart(2,'0');
-  const alt = (G.curH+12<=23)?' o <strong>'+String(G.curH+12).padStart(2,'0')+':'+mS+'</strong>':'';
+  const correctText = timeToText(G.curH, G.curM);
   
-  document.getElementById('train-input-h').disabled = true;
-  document.getElementById('train-input-m').disabled = true;
+  document.getElementById('train-input-text').disabled = true;
   document.getElementById('train-btn-check').style.display = 'none';
   
   if(ok){
     G.streak++;
     fb.className = 'feedback-box correct';
-    fb.innerHTML = `✅ ¡Correcto! <strong>${hS}:${mS}</strong>${alt}`;
+    fb.innerHTML = `✅ ¡Correcto! <strong>"${correctText}"</strong>`;
     playSound('correcto');
   } else {
     G.streak = 0;
     fb.className = 'feedback-box wrong';
-    fb.innerHTML = `❌ Era <strong>${hS}:${mS}</strong>${alt}`;
+    fb.innerHTML = `❌ Era: <strong>"${correctText}"</strong>`;
     playSound('error');
     shake(document.querySelector('#screen-training'));
   }
@@ -735,7 +735,6 @@ function showSubmitModal(timeStr, score) {
     document.getElementById('submitModal').dataset.score = score;
     document.getElementById('submitModal').dataset.time = timerSecs; // Raw seconds
     
-    // Focus on name input after a small delay to ensure transition
     setTimeout(() => document.getElementById('playerName').focus(), 100);
 }
 
@@ -825,44 +824,12 @@ window.onload = () => {
 };
 
 // ═══ KEYBOARD LOGIC ═══
-document.getElementById('input-h').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){e.preventDefault();if(!G.answered)checkAnswer(); else {/*auto-advance handles*/}}
-  if(e.key==='Tab'){e.preventDefault();document.getElementById('input-m').focus();}
-});
-document.getElementById('input-h').addEventListener('input',function(){if(this.value.length===2)document.getElementById('input-m').focus();});
-
-document.getElementById('input-m').addEventListener('keydown',e=>{
+document.getElementById('input-text').addEventListener('keydown',e=>{
   if(e.key==='Enter'){e.preventDefault();if(!G.answered)checkAnswer();}
-  // Backspace logic
-  if(e.key==='Backspace'){
-      const val = document.getElementById('input-m').value;
-      if(val.length === 0){
-          e.preventDefault();
-          const inpH = document.getElementById('input-h');
-          inpH.focus();
-          inpH.value = inpH.value.slice(0, -1); // Remove last char from hours
-      }
-  }
 });
 
-document.getElementById('train-input-h').addEventListener('keydown',e=>{
+document.getElementById('train-input-text').addEventListener('keydown',e=>{
   if(e.key==='Enter'){e.preventDefault();if(!G.answered)checkTraining();}
-  if(e.key==='Tab'){e.preventDefault();document.getElementById('train-input-m').focus();}
-});
-document.getElementById('train-input-h').addEventListener('input',function(){if(this.value.length===2)document.getElementById('train-input-m').focus();});
-
-document.getElementById('train-input-m').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){e.preventDefault();if(!G.answered)checkTraining();}
-  // Backspace logic
-  if(e.key==='Backspace'){
-      const val = document.getElementById('train-input-m').value;
-      if(val.length === 0){
-          e.preventDefault();
-          const inpH = document.getElementById('train-input-h');
-          inpH.focus();
-          inpH.value = inpH.value.slice(0, -1);
-      }
-  }
 });
 
 </script>
